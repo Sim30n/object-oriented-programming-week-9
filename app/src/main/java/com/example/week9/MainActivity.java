@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         readXMLViro();
 
         String[] maat = new String[] {
-                "Suomi", "Viro"
+                "Suomi", "Viro", "Suomi ja Viro"
         };
         maa = (Spinner) findViewById(R.id.maa);
         ArrayAdapter<String> maaAdapter = new ArrayAdapter<String>(this,
@@ -139,8 +139,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void smartDropdown(View v){
         ArrayList<String> smartposts =  new ArrayList<String>();
-        for (int i = 0; i<smartposthandler.smartpost_array_suomi.size(); i++){
-            smartposts.add(smartposthandler.smartpost_array_suomi.get(i).getName());
+        String country = maa.getSelectedItem().toString();
+        String country_lyh = "Suomi ja Viro";
+        if(country.equals("Suomi")){
+            country_lyh = "FI";
+        } else if(country.equals("Viro")){
+            country_lyh = "EE";
+        }
+        for (int i = 0; i<smartposthandler.smartpost_array.size(); i++){
+            if(country_lyh.equals(smartposthandler.smartpost_array.get(i).getCountry())){
+                smartposts.add(smartposthandler.smartpost_array.get(i).getName());
+            } else if(country.equals("Suomi ja Viro")){
+                smartposts.add(smartposthandler.smartpost_array.get(i).getName());
+            }
         }
         smartpostAutomaatit = (Spinner) findViewById(R.id.spinner1);
         ArrayAdapter<String> smartpostAdapter = new ArrayAdapter<String>(this,
@@ -157,14 +168,14 @@ public class MainActivity extends AppCompatActivity {
         String address = "";
         String country = "";
         String text_value = smartpostAutomaatit.getSelectedItem().toString();
-        for (int i = 0; i<smartposthandler.smartpost_array_suomi.size(); i++){
-            if(smartposthandler.smartpost_array_suomi.get(i).getName() == text_value){
-                name = smartposthandler.smartpost_array_suomi.get(i).getName();
-                city = smartposthandler.smartpost_array_suomi.get(i).getCity();
-                availability = smartposthandler.smartpost_array_suomi.get(i).getAvailability();
-                postalcode = smartposthandler.smartpost_array_suomi.get(i).getPostalcode();
-                address = smartposthandler.smartpost_array_suomi.get(i).getAddress();
-                country = smartposthandler.smartpost_array_suomi.get(i).getCountry();
+        for (int i = 0; i<smartposthandler.smartpost_array.size(); i++){
+            if(smartposthandler.smartpost_array.get(i).getName() == text_value){
+                name = smartposthandler.smartpost_array.get(i).getName();
+                city = smartposthandler.smartpost_array.get(i).getCity();
+                availability = smartposthandler.smartpost_array.get(i).getAvailability();
+                postalcode = smartposthandler.smartpost_array.get(i).getPostalcode();
+                address = smartposthandler.smartpost_array.get(i).getAddress();
+                country = smartposthandler.smartpost_array.get(i).getCountry();
             }
         }
         String print_text = name + "\n" + country +"\n" + city  + " " + postalcode + "\n" + address + "\n" +availability;
